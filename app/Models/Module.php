@@ -7,20 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class SubProject extends Model
+class Module extends Model
 {
     use HasFactory, HasSlug;
 
-    protected $fillable = ["project_id", "title", "slug", "logo"];
+    protected $fillable = ["sub_project_id", "parent_id", "title", "icon", "slug", "is_dropdown"];
 
-    public function project()
+    public function subModules()
     {
-        return $this->belongsTo(Project::class);
+        return $this->hasMany(static::class, "parent_id");
     }
 
-    public function modules()
+    public function subProject()
     {
-        return $this->hasMany(Module::class);
+        return $this->belongsTo(SubProject::class);
     }
 
     public function getSlugOptions(): SlugOptions

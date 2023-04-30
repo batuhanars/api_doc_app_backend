@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SubProjectController;
 use Illuminate\Http\Request;
@@ -31,3 +32,9 @@ Route::post("{project}/sub-projects", [SubProjectController::class, "store"]);
 Route::get("/sub-projects/{sub_project}", [SubProjectController::class, "show"]);
 Route::put("/sub-projects/{sub_project}", [SubProjectController::class, "update"]);
 Route::delete("/sub-projects/{sub_project}", [SubProjectController::class, "destroy"]);
+
+Route::get("{sub_project}/modules", [ModuleController::class, "index"]);
+Route::post("{sub_project}/modules", [ModuleController::class, "store"]);
+Route::get("/modules/{module}", [ModuleController::class, "show"]);
+Route::put("/modules/{module}", [ModuleController::class, "update"]);
+Route::delete("/modules/{module}", [ModuleController::class, "destroy"]);
