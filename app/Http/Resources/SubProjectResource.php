@@ -15,6 +15,7 @@ class SubProjectResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "id" => $this->id,
             "project_id" => $this->project_id,
             "title" => $this->title,
             "slug" => $this->slug,
