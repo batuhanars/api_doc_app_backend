@@ -35,16 +35,18 @@ class ModuleController extends Controller
             ]);
         }
         $module = $sub_project->modules()->create($request->post());
-        $module->endpoint()->create([
-            "title" => "Başlık",
-            "url" => "https://domain.com/api/",
-            "method" => "GET",
-            "result_content" => json_encode(array(
-                "status" => "success",
-                "message" => "Mesaj",
-                "data" => []
-            )),
-        ]);
+        if ($module->is_dropdown == 0) {
+            $module->endpoint()->create([
+                "title" => "Başlık",
+                "url" => "https://domain.com/api/",
+                "method" => "GET",
+                "result_content" => json_encode(array(
+                    "status" => "success",
+                    "message" => "Mesaj",
+                    "data" => []
+                )),
+            ]);
+        }
         return response(["success" => "Başarıyla modül eklendi."]);
     }
 
