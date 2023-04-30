@@ -25,6 +25,7 @@ class ModuleResource extends JsonResource
             "created_at" => $this->created_at->format("Y-m-d"),
             "updated_at" => $this->updated_at,
             "subModules" => $this->subModules,
+            "parameters" => $this->parameters,
             "subProject" => $this->subProject,
             "endpoint" => $this->endpoint,
         ];

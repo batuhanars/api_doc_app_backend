@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SubProjectController;
 use Illuminate\Http\Request;
@@ -39,3 +40,9 @@ Route::get("/modules/{module}", [ModuleController::class, "show"]);
 Route::put("/modules/{module}", [ModuleController::class, "update"]);
 Route::put("/modules/{module}/endpoint-update", [ModuleController::class, "updateEndpoint"]);
 Route::delete("/modules/{module}", [ModuleController::class, "destroy"]);
+
+
+Route::get("{module}/parameters", [ParameterController::class, "index"]);
+Route::post("{module}/parameters", [ParameterController::class, "store"]);
+Route::put("/parameters/{parameter}", [ParameterController::class, "update"]);
+Route::delete("/parameters/{parameter}", [ParameterController::class, "destroy"]);

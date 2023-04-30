@@ -28,6 +28,11 @@ class Module extends Model
         return $this->hasOne(Endpoint::class);
     }
 
+    public function parameters()
+    {
+        return $this->hasMany(Parameter::class);
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
