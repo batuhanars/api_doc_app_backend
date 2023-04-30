@@ -37,18 +37,16 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($slug)
+    public function show(Project $project)
     {
-        $project = new ProjectResource(Project::where("slug", $slug)->first());
-        return response(["project" => $project]);
+        return response(["project" => new ProjectResource($project)]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Project $project)
     {
-        $project = Project::find($id);
         if ($request->hasFile("logo")) {
             @unlink(public_path($project->logo));
             $fileName = uniqid() . "." . $request->logo->extension();
@@ -58,16 +56,16 @@ class ProjectController extends Controller
                 "logo" => $fileNameWithUpload,
             ]);
         }
-        Project::find($id)->update($request->post());
+        $project->update($request->post());
         return response(["success" => "Proje başarıyla güncellendi."]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        Project::find($id)->delete();
+        $project->delete();
         return response(["success" => "Proje başarıyla silindi."]);
     }
 }

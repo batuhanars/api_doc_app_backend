@@ -12,9 +12,8 @@ class SubProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($projectId)
+    public function index(Project $project)
     {
-        $project = Project::find($projectId);
         $subProjects = SubProjectResource::collection($project->subProjects()->orderBy("created_at", "DESC")->get());
         return response(["subProjects" => $subProjects]);
     }
@@ -22,9 +21,8 @@ class SubProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $projectId)
+    public function store(Request $request, Project $project)
     {
-        $project = Project::find($projectId);
         $project->subProjects()->create($request->post());
         return response(["success" => "Alt Proje başarıyla oluşturuldu."]);
     }
@@ -32,30 +30,27 @@ class SubProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($projectId, $slug)
+    public function show(SubProject $sub_project)
     {
-        $project = Project::find($projectId);
-        $subProject = new SubProjectResource($project->subProjects()->where("slug", $slug)->first());
+        $subProject = new SubProjectResource($sub_project->first());
         return response(["subProject" => $subProject]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $projectId, $id)
+    public function update(Request $request, SubProject $sub_project)
     {
-        $project = Project::find($projectId);
-        $project->subProjects()->find($id)->update($request->post());
+        $sub_project->update($request->post());
         return response(["success" => "Alt Proje başarıyla güncellendi."]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($projectId, $id)
+    public function destroy(SubProject $sub_project)
     {
-        $project = Project::find($projectId);
-        $project->subProjects()->find($id)->delete();
+        $sub_project->delete();
         return response(["success" => "Alt Proje başarıyla silindi."]);
     }
 }

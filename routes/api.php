@@ -22,12 +22,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("/projects", [ProjectController::class, "index"]);
 Route::post("/projects", [ProjectController::class, "store"]);
-Route::get("/projects/{slug}", [ProjectController::class, "show"]);
-Route::put("/projects/{id}", [ProjectController::class, "update"]);
-Route::delete("/projects/{id}", [ProjectController::class, "destroy"]);
+Route::get("/projects/{project}", [ProjectController::class, "show"]);
+Route::put("/projects/{project}", [ProjectController::class, "update"]);
+Route::delete("/projects/{project}", [ProjectController::class, "destroy"]);
 
-Route::get("{projectId}/sub-projects", [SubProjectController::class, "index"]);
-Route::post("{projectId}/sub-projects", [SubProjectController::class, "store"]);
-Route::get("{projectId}/sub-projects/{slug}", [SubProjectController::class, "show"]);
-Route::put("{projectId}/sub-projects/{id}", [SubProjectController::class, "update"]);
-Route::delete("{projectId}/sub-projects/{id}", [SubProjectController::class, "destroy"]);
+Route::get("{project}/sub-projects", [SubProjectController::class, "index"]);
+Route::post("{project}/sub-projects", [SubProjectController::class, "store"]);
+Route::get("/sub-projects/{sub_project}", [SubProjectController::class, "show"]);
+Route::put("/sub-projects/{sub_project}", [SubProjectController::class, "update"]);
+Route::delete("/sub-projects/{sub_project}", [SubProjectController::class, "destroy"]);
