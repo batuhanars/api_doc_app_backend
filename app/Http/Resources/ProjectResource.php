@@ -21,6 +21,7 @@ class ProjectResource extends JsonResource
             "logo" => $this->logo,
             "created_at" => $this->created_at->format("Y-m-d"),
             "updated_at" => $this->updated_at,
+            "subProjects" => $this->subProjects,
         ];
     }
 }

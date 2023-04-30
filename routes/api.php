@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SubProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,9 @@ Route::post("/projects", [ProjectController::class, "store"]);
 Route::get("/projects/{slug}", [ProjectController::class, "show"]);
 Route::put("/projects/{id}", [ProjectController::class, "update"]);
 Route::delete("/projects/{id}", [ProjectController::class, "destroy"]);
+
+Route::get("{projectId}/sub-projects", [SubProjectController::class, "index"]);
+Route::post("{projectId}/sub-projects", [SubProjectController::class, "store"]);
+Route::get("{projectId}/sub-projects/{slug}", [SubProjectController::class, "show"]);
+Route::put("{projectId}/sub-projects/{id}", [SubProjectController::class, "update"]);
+Route::delete("{projectId}/sub-projects/{id}", [SubProjectController::class, "destroy"]);
