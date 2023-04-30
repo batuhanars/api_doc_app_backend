@@ -23,6 +23,11 @@ class Module extends Model
         return $this->belongsTo(SubProject::class);
     }
 
+    public function endpoint()
+    {
+        return $this->hasOne(Endpoint::class);
+    }
+
     public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()

@@ -26,6 +26,7 @@ class ModuleResource extends JsonResource
             "updated_at" => $this->updated_at,
             "subModules" => $this->subModules,
             "subProject" => $this->subProject,
+            "endpoint" => $this->endpoint,
         ];
     }
 }

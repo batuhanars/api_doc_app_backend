@@ -37,4 +37,5 @@ Route::get("{sub_project}/modules", [ModuleController::class, "index"]);
 Route::post("{sub_project}/modules", [ModuleController::class, "store"]);
 Route::get("/modules/{module}", [ModuleController::class, "show"]);
 Route::put("/modules/{module}", [ModuleController::class, "update"]);
+Route::put("/modules/{module}/endpoint-update", [ModuleController::class, "updateEndpoint"]);
 Route::delete("/modules/{module}", [ModuleController::class, "destroy"]);

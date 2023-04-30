@@ -34,8 +34,18 @@ class ModuleController extends Controller
                 "is_dropdown" => 0
             ]);
         }
-        $sub_project->modules()->create($request->post());
-        return response(["success" => "Başarıyla mdoül eklendi."]);
+        $module = $sub_project->modules()->create($request->post());
+        $module->endpoint()->create([
+            "title" => "Başlık",
+            "url" => "https://domain.com/api/",
+            "method" => "GET",
+            "result_content" => json_encode(array(
+                "status" => "success",
+                "message" => "Mesaj",
+                "data" => []
+            )),
+        ]);
+        return response(["success" => "Başarıyla modül eklendi."]);
     }
 
     /**
@@ -53,6 +63,12 @@ class ModuleController extends Controller
     {
         $module->update($request->post());
         return response(["success" => "Modül başarıyla güncellendi."]);
+    }
+
+    public function updateEndpoint(Request $request, Module $module)
+    {
+        $module->endpoint()->update($request->post());
+        return response(["success" => "Endpoint başarıyla güncellendi."]);
     }
 
     /**
