@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string("slug");
             $table->integer("is_dropdown");
             $table->timestamps();
+
+            $table->foreign("sub_project_id")->references("id")->on("sub_projects")->onDelete("cascade");
         });
     }
 
