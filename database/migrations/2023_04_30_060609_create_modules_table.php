@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger("sub_project_id");
-            $table->unsignedInteger("parent_id");
+            $table->unsignedBigInteger("sub_project_id");
+            $table->unsignedBigInteger("parent_id");
             $table->string("title");
             $table->string("icon");
             $table->string("slug");
