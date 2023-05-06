@@ -22,7 +22,6 @@ return new class extends Migration
             $table->double("order");
             $table->timestamps();
 
-            $table->foreign("parent_id")->references("id")->on("modules")->onDelete("cascade");
             $table->foreign("sub_project_id")->references("id")->on("sub_projects")->onDelete("cascade");
         });
     }
