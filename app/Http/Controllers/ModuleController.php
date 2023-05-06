@@ -14,7 +14,7 @@ class ModuleController extends Controller
      */
     public function index(SubProject $sub_project)
     {
-        $modules = ModuleResource::collection($sub_project->modules()->orderBy("created_at", "DESC")->get());
+        $modules = ModuleResource::collection($sub_project->modules()->orderBy("order", "ASC")->where("parent_id", 0)->get());
         return response(["modules" => $modules]);
     }
 
@@ -37,8 +37,8 @@ class ModuleController extends Controller
         $module = $sub_project->modules()->create($request->post());
         if ($module->is_dropdown == 0) {
             $module->endpoint()->create([
-                "title" => "Başlık",
-                "url" => "https://domain.com/api/",
+                "title" => $module->title,
+                "url" => "https://domain.com/api/$module->slug",
                 "method" => "GET",
                 "result_content" => json_encode(array(
                     "status" => "success",
@@ -47,7 +47,7 @@ class ModuleController extends Controller
                 )),
             ]);
         }
-        return response(["success" => "Başarıyla modül eklendi."]);
+        return response(["success" => "Başarıyla modül eklendi.", "module" => $module]);
     }
 
     /**
@@ -55,7 +55,7 @@ class ModuleController extends Controller
      */
     public function show(Module $module)
     {
-        return response(["module" => new ModuleResource($module)]);
+        return response(["module" => new ModuleResource($module), "endpoint" => $module->endpoint]);
     }
 
     /**
@@ -64,14 +64,42 @@ class ModuleController extends Controller
     public function update(Request $request, Module $module)
     {
         $module->update($request->post());
-        return response(["success" => "Modül başarıyla güncellendi."]);
+        return response(["success" => "Modül başarıyla güncellendi.", "module" => $module]);
+    }
+
+    public function moveModule(Request $request, Module $module)
+    {
+        $module->update([
+            "order" => $request->order
+        ]);
+        return response(["success" => "Modül başarıyla güncellendi.", "module" => $module]);
     }
 
     public function updateEndpoint(Request $request, Module $module)
     {
-        $module->endpoint()->update($request->post());
-        return response(["success" => "Endpoint başarıyla güncellendi."]);
+        $module->endpoint()->update([
+            "url" => $request->url,
+            "method" => $request->method,
+        ]);
+        return response(["success" => "Endpoint başarıyla güncellendi.", "module" => $module, "endpoint" => $module->endpoint]);
     }
+
+    public function updateEndpointTitle(Request $request, Module $module)
+    {
+        $module->endpoint()->update([
+            "title" => $request->title,
+        ]);
+        return response(["success" => "Başlık başarıyla güncellendi.", "endpoint" => $module->endpoint]);
+    }
+
+    public function updateEndpointContent(Request $request, Module $module)
+    {
+        $module->endpoint()->update([
+            "result_content" => $request->result_content,
+        ]);
+        return response(["success" => "Response başarıyla güncellendi.", "endpoint" => $module->endpoint]);
+    }
+
 
     /**
      * Remove the specified resource from storage.

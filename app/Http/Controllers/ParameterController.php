@@ -22,8 +22,20 @@ class ParameterController extends Controller
      */
     public function store(Request $request, Module $module)
     {
-        $module->parameters()->create($request->post());
-        return response(["success" => "Parametre başarıyla eklendi."]);
+        $request->validate([
+            "title" => "required",
+            "type" => "required",
+            "status" => "required",
+            "description" => "required",
+        ], [
+            "title.required" => "Başlık gereklidir.",
+            "type.required" => "Tip gereklidir.",
+            "status.required" => "Durum gereklidir.",
+            "description.required" => "Açıklama gereklidir.",
+        ]);
+
+        $parameter = $module->parameters()->create($request->post());
+        return response(["success" => "Parametre başarıyla eklendi.", "parameter" => $parameter]);
     }
 
     /**
@@ -31,8 +43,20 @@ class ParameterController extends Controller
      */
     public function update(Request $request, Parameter $parameter)
     {
+        $request->validate([
+            "title" => "required",
+            "type" => "required",
+            "status" => "required",
+            "description" => "required",
+        ], [
+            "title.required" => "Başlık gereklidir.",
+            "type.required" => "Tip gereklidir.",
+            "status.required" => "Durum gereklidir.",
+            "description.required" => "Açıklama gereklidir.",
+        ]);
+
         $parameter->update($request->post());
-        return response(["success" => "Parametre başarıyla güncellendi."]);
+        return response(["success" => "Parametre başarıyla güncellendi.", "parameter" => $parameter]);
     }
 
     /**

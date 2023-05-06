@@ -22,16 +22,25 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            "logo" => ["required"],
+            "title" => "required"
+        ], [
+            "logo.required" => "Logo gereklidir.",
+            // "logo.max" => "Logo maximum 2mb olmalıdır.",
+            "title.required" => "Başlık gereklidir.",
+        ]);
+
         if ($request->hasFile("logo")) {
             $fileName = uniqid() . "." . $request->logo->extension();
-            $fileNameWithUpload = "/upload/projects/" . $fileName;
+            $fileNameWithUpload = asset("") . "upload/projects/" . $fileName;
             $request->logo->move(public_path("/upload/projects"), $fileName);
             $request->merge([
                 "logo" => $fileNameWithUpload,
             ]);
         }
-        Project::create($request->post());
-        return response(["success" => "Proje başarıyla kaydedildi."]);
+        $project = Project::create($request->post());
+        return response(["success" => "Proje başarıyla kaydedildi.", "project" => $project]);
     }
 
     /**
@@ -47,17 +56,26 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate([
+            "logo" => ["required"],
+            "title" => "required"
+        ], [
+            "logo.required" => "Logo gereklidir.",
+            // "logo.max" => "Logo maximum 2mb olmalıdır.",
+            "title.required" => "Başlık gereklidir.",
+        ]);
+
         if ($request->hasFile("logo")) {
             @unlink(public_path($project->logo));
             $fileName = uniqid() . "." . $request->logo->extension();
-            $fileNameWithUpload = "/upload/projects/" . $fileName;
+            $fileNameWithUpload = asset("") . "upload/projects/" . $fileName;
             $request->logo->move(public_path("/upload/projects"), $fileName);
             $request->merge([
                 "logo" => $fileNameWithUpload,
             ]);
         }
         $project->update($request->post());
-        return response(["success" => "Proje başarıyla güncellendi."]);
+        return response(["success" => "Proje başarıyla güncellendi.", "project" => $project]);
     }
 
     /**

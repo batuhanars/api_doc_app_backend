@@ -23,8 +23,14 @@ class SubProjectController extends Controller
      */
     public function store(Request $request, Project $project)
     {
-        $project->subProjects()->create($request->post());
-        return response(["success" => "Alt Proje başarıyla oluşturuldu."]);
+        $request->validate([
+            "title" => "required"
+        ], [
+            "title.required" => "Başlık gereklidir.",
+        ]);
+
+        $subProject = $project->subProjects()->create($request->post());
+        return response(["success" => "Alt Proje başarıyla oluşturuldu.", "subProject" => $subProject]);
     }
 
     /**
@@ -32,8 +38,7 @@ class SubProjectController extends Controller
      */
     public function show(SubProject $sub_project)
     {
-        $subProject = new SubProjectResource($sub_project->first());
-        return response(["subProject" => $subProject]);
+        return response(["subProject" => new SubProjectResource($sub_project)]);
     }
 
     /**
@@ -41,8 +46,14 @@ class SubProjectController extends Controller
      */
     public function update(Request $request, SubProject $sub_project)
     {
+        $request->validate([
+            "title" => "required"
+        ], [
+            "title.required" => "Başlık gereklidir.",
+        ]);
+
         $sub_project->update($request->post());
-        return response(["success" => "Alt Proje başarıyla güncellendi."]);
+        return response(["success" => "Alt Proje başarıyla güncellendi.", "subProject" => $sub_project]);
     }
 
     /**

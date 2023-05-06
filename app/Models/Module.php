@@ -11,11 +11,11 @@ class Module extends Model
 {
     use HasFactory, HasSlug;
 
-    protected $fillable = ["sub_project_id", "parent_id", "title", "icon", "slug", "is_dropdown"];
+    protected $fillable = ["sub_project_id", "parent_id", "title", "icon", "slug", "is_dropdown", "order"];
 
     public function subModules()
     {
-        return $this->hasMany(static::class, "parent_id");
+        return $this->hasMany(static::class, "parent_id")->orderBy("order", "ASC");
     }
 
     public function subProject()
@@ -43,5 +43,12 @@ class Module extends Model
     public function getRouteKeyName()
     {
         return "slug";
+    }
+
+    public static function booted()
+    {
+        static::creating(function ($module) {
+            $module->order = self::query()->where("parent_id", $module->parent_id)->orderByDesc("order")->first()?->order + 1;
+        });
     }
 }

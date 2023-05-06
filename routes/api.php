@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EndpointController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\ProjectController;
@@ -38,9 +39,11 @@ Route::get("{sub_project}/modules", [ModuleController::class, "index"]);
 Route::post("{sub_project}/modules", [ModuleController::class, "store"]);
 Route::get("/modules/{module}", [ModuleController::class, "show"]);
 Route::put("/modules/{module}", [ModuleController::class, "update"]);
+Route::put("/modules/{module}/move", [ModuleController::class, "moveModule"]);
 Route::put("/modules/{module}/endpoint-update", [ModuleController::class, "updateEndpoint"]);
+Route::put("/modules/{module}/endpoint-update-title", [ModuleController::class, "updateEndpointTitle"]);
+Route::put("/modules/{module}/endpoint-update-content", [ModuleController::class, "updateEndpointContent"]);
 Route::delete("/modules/{module}", [ModuleController::class, "destroy"]);
-
 
 Route::get("{module}/parameters", [ParameterController::class, "index"]);
 Route::post("{module}/parameters", [ParameterController::class, "store"]);
