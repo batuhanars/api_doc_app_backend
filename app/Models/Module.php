@@ -50,5 +50,9 @@ class Module extends Model
         static::creating(function ($module) {
             $module->order = self::query()->where("parent_id", $module->parent_id)->orderByDesc("order")->first()?->order + 1;
         });
+
+        static::deleted(function ($module) {
+            $module->order = self::query()->where("parent_id", $module->id)->delete();
+        });
     }
 }
