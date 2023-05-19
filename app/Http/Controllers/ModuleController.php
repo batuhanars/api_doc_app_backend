@@ -14,7 +14,7 @@ class ModuleController extends Controller
      */
     public function index(SubProject $sub_project)
     {
-        $modules = ModuleResource::collection($sub_project->modules()->orderBy("order", "ASC")->where("parent_id", 0)->get());
+        $modules = ModuleResource::collection($sub_project->modules()->orderBy("order")->where("parent_id", 0)->get());
         return response(["modules" => $modules]);
     }
 
