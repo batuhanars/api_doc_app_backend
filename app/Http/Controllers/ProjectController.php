@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,7 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = ProjectResource::collection(Project::orderBy("created_at", "DESC")->get());
+        $projects = ProjectResource::collection(Project::query()->when(request()->get("project"), function (Builder $query, $search) {
+            $query->where("title", "LIKE", "%{$search}%");
+        })->orderBy("created_at", "DESC")->get());
         return response(["projects" => $projects]);
     }
 

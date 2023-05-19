@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\SubProjectResource;
 use App\Models\Project;
 use App\Models\SubProject;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class SubProjectController extends Controller
@@ -14,7 +15,9 @@ class SubProjectController extends Controller
      */
     public function index(Project $project)
     {
-        $subProjects = SubProjectResource::collection($project->subProjects()->orderBy("created_at", "DESC")->get());
+        $subProjects = SubProjectResource::collection($project->subProjects()->when(request()->get("subProject"), function (Builder $query, $search) {
+            $query->where("title", "LIKE", "%{$search}%");
+        })->orderBy("created_at", "DESC")->get());
         return response(["subProjects" => $subProjects]);
     }
 
